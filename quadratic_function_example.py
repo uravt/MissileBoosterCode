@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from prettytable import PrettyTable
 
+
 # Define the fitness function
 def fitness_function(params):
     a, b, c = params
@@ -15,6 +16,7 @@ def fitness_function(params):
     curviness = abs(y_left - vertex_y) + abs(y_right - vertex_y)
     return curviness
 
+
 # Create the initial population
 def create_initial_population(size, lower_bound, upper_bound):
     population = []
@@ -22,6 +24,7 @@ def create_initial_population(size, lower_bound, upper_bound):
         individual = [random.uniform(lower_bound, upper_bound) for _ in range(3)]
         population.append(individual)
     return population
+
 
 # Selection function using tournament selection
 def selection(population, fitnesses, tournament_size=3):
@@ -32,12 +35,14 @@ def selection(population, fitnesses, tournament_size=3):
         selected.append(winner)
     return selected
 
+
 # Crossover function
 def crossover(parent1, parent2):
     alpha = random.random()
     child1 = tuple(alpha * p1 + (1 - alpha) * p2 for p1, p2 in zip(parent1, parent2))
     child2 = tuple((1 - alpha) * p1 + alpha * p2 for p1, p2 in zip(parent1, parent2))
     return child1, child2
+
 
 # Mutation function
 def mutation(individual, mutation_rate, lower_bound, upper_bound):
@@ -48,6 +53,7 @@ def mutation(individual, mutation_rate, lower_bound, upper_bound):
             individual[i] += mutation_amount
             individual[i] = max(lower_bound, min(upper_bound, individual[i]))
     return tuple(individual)
+
 
 # Genetic Algorithm function
 def genetic_algorithm(population_size, lower_bound, upper_bound, generations, mutation_rate):
@@ -93,21 +99,24 @@ def genetic_algorithm(population_size, lower_bound, upper_bound, generations, mu
     final_fitnesses = [fitness_function(ind) for ind in final_population]
 
     axs[0].scatter(range(len(final_population)), [ind[0] for ind in final_population], color='blue', label='a')
-    axs[0].scatter([final_population.index(best_individual)], [best_individual[0]], color='cyan', s=100, label='Best Individual a')
+    axs[0].scatter([final_population.index(best_individual)], [best_individual[0]], color='cyan', s=100,
+                   label='Best Individual a')
     axs[0].set_ylabel('a', color='blue')
     axs[0].legend(loc='upper left')
-    
+
     axs[1].scatter(range(len(final_population)), [ind[1] for ind in final_population], color='green', label='b')
-    axs[1].scatter([final_population.index(best_individual)], [best_individual[1]], color='magenta', s=100, label='Best Individual b')
+    axs[1].scatter([final_population.index(best_individual)], [best_individual[1]], color='magenta', s=100,
+                   label='Best Individual b')
     axs[1].set_ylabel('b', color='green')
     axs[1].legend(loc='upper left')
-    
+
     axs[2].scatter(range(len(final_population)), [ind[2] for ind in final_population], color='red', label='c')
-    axs[2].scatter([final_population.index(best_individual)], [best_individual[2]], color='yellow', s=100, label='Best Individual c')
+    axs[2].scatter([final_population.index(best_individual)], [best_individual[2]], color='yellow', s=100,
+                   label='Best Individual c')
     axs[2].set_ylabel('c', color='red')
     axs[2].set_xlabel('Individual Index')
     axs[2].legend(loc='upper left')
-    
+
     axs[0].set_title(f'Final Generation ({generations}) Population Solutions')
 
     # Plot the values of a, b, and c over generations
@@ -130,7 +139,8 @@ def genetic_algorithm(population_size, lower_bound, upper_bound, generations, mu
     max_fitness_values = [max([fitness_function(ind) for ind in population]) for population in all_populations]
     fig, ax = plt.subplots()
     ax.plot(generations_list, best_fitness_values, label='Best Fitness', color='black')
-    ax.fill_between(generations_list, min_fitness_values, max_fitness_values, color='gray', alpha=0.5, label='Fitness Range')
+    ax.fill_between(generations_list, min_fitness_values, max_fitness_values, color='gray', alpha=0.5,
+                    label='Fitness Range')
     ax.set_xlabel('Generation')
     ax.set_ylabel('Fitness')
     ax.set_title('Fitness Over Generations')
@@ -160,6 +170,7 @@ def genetic_algorithm(population_size, lower_bound, upper_bound, generations, mu
     plt.show()
 
     return max(population, key=fitness_function)
+
 
 # Parameters for the genetic algorithm
 population_size = 1000
