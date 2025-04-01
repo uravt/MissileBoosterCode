@@ -17,7 +17,7 @@ Isp = 260  # Specific impulse (s)
 rho_prop = 1960  # Density of propellant (kg/m^3)
 rho_wall = 2700  # Density of wall material (kg/m^3)
 rho_bulkhead = 2700  # Density of bulkhead material (kg/m^3)
-d_prop = 0.6  # Propellant diameter (m)
+d_prop = 0.75  # Propellant diameter (m)
 d_total = 0.75  # Total diameter (m)
 L_bulkhead = 0.5  # Bulkhead length (m)
 m_payload = 250  # Assumed payload mass (kg)
@@ -52,7 +52,7 @@ L2 = get_float("Please enter stage length 2 (meters): ")
 L3 = get_float("Please enter stage length 3 (meters): ")
 
 # Ensure total length constraint is met
-if round(L1 + L2 + L3, 2) != 7:
+if round(L1 + L2 + L3, 2) != 7.5:
   print("Error: The total stage length must be 5.5 meters.")
 
 v_exhaust = Isp * g
