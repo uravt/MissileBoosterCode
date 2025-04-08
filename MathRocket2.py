@@ -53,7 +53,7 @@ L3 = get_float("Please enter stage length 3 (meters): ")
 
 # Ensure total length constraint is met
 if round(L1 + L2 + L3, 2) != 6:
-  print("Error: The total stage length must be 5.5 meters.")
+  print("Error: The total stage length must be 6 meters.")
 
 v_exhaust = Isp * g
 
