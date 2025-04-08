@@ -14,6 +14,13 @@ d_total = 0.75  # Total diameter (m)
 L_bulkhead = 0.5  # Bulkhead length (m)
 m_payload = 250  # Payload mass (kg)
 
+def get_float(prompt):
+    while True:
+        try:
+            return float(input(prompt).strip())  # Strip removes extra spaces
+        except ValueError:
+            print("Invalid input! Please enter a numeric value.")
+
 rocket_length = get_float("Please enter the total length of the rocket: ")
 
 # Helper functions
@@ -27,8 +34,8 @@ def mass_wall(L_wall):
 def fitness_function(ind):
     L1, L2, L3 = ind
 
-    # Constraint: total length must equal 6 meters
-    if L1 <= 0 or L2 <= 0 or L3 <= 0 or not np.isclose(L1 + L2 + L3, 6, atol=0.01):
+    # Constraint: sum of individual lengths must equal total length 
+    if L1 <= 0 or L2 <= 0 or L3 <= 0 or not np.isclose(L1 + L2 + L3, rocket_length, atol=0.01):
         return -1e6  # Penalize invalid solutions
 
     v_exhaust = Isp * g
@@ -98,7 +105,7 @@ def crossover(parent1, parent2):
     # Normalize to maintain total length
     def normalize(child):
         total = sum(child)
-        return [L * 6 / total for L in child]
+        return [L * rocket_length / total for L in child]
 
     return normalize(child1), normalize(child2)
 
@@ -112,16 +119,16 @@ def mutation(individual, mutation_rate, lower_bound, upper_bound):
             individual[i] += delta
             individual[i] = max(lower_bound, min(upper_bound, individual[i]))
 
-    # Normalize again to maintain sum = 6
+    # Normalize again to maintain sum = rocket_length
     total = sum(individual)
-    individual = [L * 6 / total for L in individual]
+    individual = [L * rocket_length / total for L in individual]
     return individual
 
 
 
 # Genetic Algorithm function
 def genetic_algorithm(population_size, lower_bound, upper_bound, generations, mutation_rate):
-    population = create_initial_population(population_size, 6)
+    population = create_initial_population(population_size, rocket_length)
 
     # Prepare for plotting
     fig, axs = plt.subplots(3, 1, figsize=(12, 18))
@@ -239,8 +246,8 @@ def genetic_algorithm(population_size, lower_bound, upper_bound, generations, mu
 # Parameters for the genetic algorithm
 population_size = 100
 lower_bound = 0
-upper_bound = 6
-generations = 40
+upper_bound = rocket_length
+generations = 50
 mutation_rate = 0.5
 
 # Run the genetic algorithm
