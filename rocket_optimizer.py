@@ -195,7 +195,7 @@ def genetic_algorithm(population_size, lower_bound, upper_bound, generations, mu
     a_values = [ind[0][0] for ind in best_performers]
     b_values = [ind[0][1] for ind in best_performers]
     c_values = [ind[0][2] for ind in best_performers]
-    fig, ax = plt.subplots()
+    fig_lengths, ax = plt.subplots()
     ax.plot(generations_list, a_values, label='L1', color='blue')
     ax.plot(generations_list, b_values, label='L2', color='green')
     ax.plot(generations_list, c_values, label='L3', color='red')
@@ -208,7 +208,7 @@ def genetic_algorithm(population_size, lower_bound, upper_bound, generations, mu
     best_fitness_values = [fit[1] for fit in best_performers]
     min_fitness_values = [min([fitness_function(ind, rocket_length) for ind in population]) for population in all_populations]
     max_fitness_values = [max([fitness_function(ind, rocket_length) for ind in population]) for population in all_populations]
-    fig, ax = plt.subplots()
+    fig_fitness, ax = plt.subplots()
     ax.plot(generations_list, best_fitness_values, label='Best Fitness', color='black')
     ax.fill_between(generations_list, min_fitness_values, max_fitness_values, color='gray', alpha=0.5,
                     label='Fitness Range')
@@ -217,6 +217,6 @@ def genetic_algorithm(population_size, lower_bound, upper_bound, generations, mu
     ax.set_title('Delta V Over Generations')
     ax.legend()
 
-    plt.show()
+    # plt.show()
 
-    return max(population, key=lambda ind: fitness_function(ind, rocket_length))
+    return max(population, key=lambda ind: fitness_function(ind, rocket_length)), [fig, fig_lengths, fig_fitness]
