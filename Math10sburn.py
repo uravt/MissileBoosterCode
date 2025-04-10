@@ -56,6 +56,6 @@ while True:
     if L2_solution < 0 or L3_solution < 0:
         print("\n⚠️ Warning: Solution has negative length(s). Please enter a new L1.")
     else:
-        print("\n✅ Solution is physical and acceptable.")
+        print("\n✅ Solution is physical and acceptable. Now plug L1, L2 & L3 into MathRocket2")
         break  # Exit loop if solution is good
 
