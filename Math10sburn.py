@@ -36,7 +36,9 @@ def system(vars, L1_fixed):
 # --- Main program ---
 while True:
     # Manually input L1
-    L1_input = float(input("\nEnter L1 (in meters): "))
+    print("\nThis program inputs random Lengths for the first stage aka L1 and "
+          "solves a systems of equations \nfor L2 and L3 that is valid in order for stage 1 to have a 10s burn time.")
+    L1_input = float(input("\nEnter L1 (in meters) (The total stage length is 6 so be mindful): "))
 
     # Smart initial guess: L1 = L2 = L3 initially
     initial_guess_value = L_total / 3  # 6/3 = 2 meters
