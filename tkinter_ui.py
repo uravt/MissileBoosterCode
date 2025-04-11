@@ -14,7 +14,7 @@ def run_algorithm():
         population_size = 100
         lower_bound = 0
         upper_bound = rocket_length
-        generations = 1000
+        generations = 100
         mutation_rate = 10 / population_size
 
         # Set the global rocket_length in the imported module
