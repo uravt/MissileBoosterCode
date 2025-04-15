@@ -21,6 +21,8 @@ d_prop = 0.5  # Propellant diameter (m)
 d_total = 0.75  # Total diameter (m)
 L_bulkhead = 0.5  # Bulkhead length (m)
 m_payload = 250  # Assumed payload mass (kg)
+v_exhaust = Isp * g # exhaust velocity (m/s)
+m_bulkhead = (np.pi / 4) * (d_total ** 2) * (L_bulkhead) * (rho_bulkhead) # mass of bulkhead (kg)
 
 def get_float(prompt):
     while True:
@@ -34,44 +36,48 @@ def mass_propellant(L_prop):
 
 def mass_wall(L_wall):
     return (np.pi / 4) * ((d_total ** 2) - (d_prop ** 2)) * L_wall * rho_wall
+    
+def delta_v(mass_ratio):
+    delta_v =  v_exhaust * np.log(mass_ratio)
+    return delta_v
 
-v_exhaust = Isp * g
+def mass_ratio(lambda_value, epsilon_value):
+    mass_ratio = (1 + lambda_value) / (epsilon_value + lambda_value)
 
-# Compute mass for each stage
-m_prop1 = mass_propellant(L1)
-m_prop2 = mass_propellant(L2)
-m_prop3 = mass_propellant(L3)
+def total_delta_v(L1, L2, L3):
+    
+    # Compute propellant mass for each stage
+    m_prop1 = mass_propellant(L1)
+    m_prop2 = mass_propellant(L2)
+    m_prop3 = mass_propellant(L3)
 
-m_bulkhead = (np.pi / 4) * (d_total ** 2) * (L_bulkhead) * (rho_bulkhead)
+    # Compute wall mass for each stage
+    m_wall1 = mass_wall(L1)
+    m_wall2 = mass_wall(L2)
+    m_wall3 = mass_wall(L3)
 
-m_wall1 = mass_wall(L1)
-m_wall2 = mass_wall(L2)
-m_wall3 = mass_wall(L3)
+    # Compute Structural Coefficients 
+    epsilon_1 = (m_bulkhead + m_wall1) / (m_prop1 + m_bulkhead + m_wall1)
+    epsilon_2 = (m_bulkhead + m_wall2) / (m_prop2 + m_bulkhead + m_wall2)
+    epsilon_3 = (m_bulkhead + m_wall3) / (m_prop3 + m_bulkhead + m_wall3)
 
+    # Compute Payload Ratios
+    lambda_1 = (m_payload + m_prop2 + m_prop3 + (2 * m_bulkhead) + m_wall2 + m_wall3) / (m_prop1 + m_bulkhead + m_wall1)
+    lambda_2 = (m_payload + m_prop3 + m_bulkhead + m_wall3) / (m_prop2 + m_bulkhead + m_wall2)
+    lambda_3 = (m_payload) / (m_prop3 + m_bulkhead + m_wall3)
 
-#mass_ratio1 = (m_payload + m_prop1 + m_prop2 + m_prop3 + (3 * m_bulkhead) + m_wall1 + m_wall2 + m_wall3) / (m_payload + m_prop1 + m_prop2 + (2 * m_bulkhead) + m_wall1 + m_wall2)
-#mass_ratio2 = (m_payload + m_prop1 + m_prop2 + (2 * m_bulkhead) + m_wall1 + m_wall2) / (m_payload + m_prop1 + m_bulkhead + m_wall1)
-#mass_ratio3 = (m_payload + m_prop1 + m_bulkhead + m_wall1) / (m_payload)
+    # Compute Mass Ratios
+    mass_ratio1 = mass_ration(lambda_1, epsilon_1)
+    mass_ratio2 = mass_ration(lambda_2, epsilon_2)
+    mass_ratio3 = mass_ration(lambda_3, epsilon_3)
 
-#mass_ratio1 = (m_payload + m_prop1 + m_prop2 + m_prop3) / (m_payload + m_prop1 + m_prop2)
-#mass_ratio2 = (m_payload + m_prop1 + m_prop2) / (m_payload + m_prop1)
-#mass_ratio3 = (m_payload + m_prop1) / (m_payload)
+    # Compute Stage Delta_V Values
+    delta_v1 = delta_v(mass_ratio1)
+    delta_v2 = delta_v(mass_ratio2)
+    delta_v3 = delta_v(mass_ratio3)
 
-epsilon_1 = (m_bulkhead + m_wall1) / (m_prop1 + m_bulkhead + m_wall1)
-epsilon_2 = (m_bulkhead + m_wall2) / (m_prop2 + m_bulkhead + m_wall2)
-epsilon_3 = (m_bulkhead + m_wall3) / (m_prop3 + m_bulkhead + m_wall3)
+    # Compute Total Delta_V for teh Rocket
+    total_delta_v = delta_v1 + delta_v2 + delta_v3
 
-lambda_1 = (m_payload + m_prop2 + m_prop3 + (2 * m_bulkhead) + m_wall2 + m_wall3) / (m_prop1 + m_bulkhead + m_wall1)
-lambda_2 = (m_payload + m_prop3 + m_bulkhead + m_wall3) / (m_prop2 + m_bulkhead + m_wall2)
-lambda_3 = (m_payload) / (m_prop3 + m_bulkhead + m_wall3)
-
-mass_ratio1 = (1 + lambda_1) / (epsilon_1 + lambda_1)
-mass_ratio2 = (1 + lambda_2) / (epsilon_2 + lambda_2)
-mass_ratio3 = (1 + lambda_3) / (epsilon_3 + lambda_3)
-
-delta_v1 = v_exhaust * np.log(mass_ratio1)
-delta_v2 = v_exhaust * np.log(mass_ratio2)
-delta_v3 = v_exhaust * np.log(mass_ratio3)
-
-total_delta_v = delta_v1 + delta_v2 + delta_v3
-print(total_delta_v)
+    return total_delta_v
+ 
