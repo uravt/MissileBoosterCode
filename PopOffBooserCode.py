@@ -24,9 +24,9 @@ L_bulkhead = 0.5  # Bulkhead length (m)
 m_payload = 250  # Assumed payload mass (kg)
 
 
-def solve_quadratic(a, b, c):
+def solve_quadratic(a, b, c, contraint):
     # Calculate the discriminant
-    discriminant = math.sqrt(b ** 2 - 4 * a * c, contraint)
+    discriminant = math.sqrt(b ** 2 - 4 * a * c)
     # Calculate two solutions
     x1 = (-b + discriminant) / (2 * a)
     x2 = (-b - discriminant) / (2 * a)
