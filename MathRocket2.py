@@ -34,11 +34,10 @@ def mass_wall(L_wall):
     return (np.pi / 4) * ((d_total ** 2) - (d_prop ** 2)) * L_wall * rho_wall
     
 def delta_v(mass_ratio):
-    delta_v =  v_exhaust * np.log(mass_ratio)
-    return delta_v
+    return (v_exhaust * np.log(mass_ratio))
 
 def mass_ratio(lambda_value, epsilon_value):
-    mass_ratio = (1 + lambda_value) / (epsilon_value + lambda_value)
+    return ((1 + lambda_value) / (epsilon_value + lambda_value))
 
 def total_delta_v(L1, L2, L3):
     
