@@ -2,33 +2,9 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 from prettytable import PrettyTable
+import MathRocket2
 
-# Constants
-g = 9.81  # Gravity (m/s^2)
-Isp = 260  # Specific impulse (s)
-rho_prop = 1960  # Density of propellant (kg/m^3)
-rho_wall = 2700  # Density of wall material (kg/m^3)
-rho_bulkhead = 2600  # Density of bulkhead material (kg/m^3)
-d_prop = 0.5  # Propellant diameter (m)
-d_total = 0.75  # Total diameter (m)
-L_bulkhead = 0.5  # Bulkhead length (m)
-m_payload = 250  # Payload mass (kg)
-
-def get_float(prompt):
-    while True:
-        try:
-            return float(input(prompt).strip())  # Strip removes extra spaces
-        except ValueError:
-            print("Invalid input! Please enter a numeric value.")
-
-rocket_length = 0
-
-# Helper functions
-def mass_propellant(L_prop):
-    return (np.pi * (d_prop ** 2) / 4) * L_prop * rho_prop
-
-def mass_wall(L_wall):
-    return (np.pi / 4) * ((d_total ** 2) - (d_prop ** 2)) * L_wall * rho_wall
+rocket_length = 0 # Placeholder for rocket length
 
 # Fitness function for the genetic algorithm
 def fitness_function(ind, rocket_length):
@@ -37,42 +13,8 @@ def fitness_function(ind, rocket_length):
     # Constraint: sum of individual lengths must equal total length 
     if L1 <= 0 or L2 <= 0 or L3 <= 0 or not np.isclose(L1 + L2 + L3, rocket_length, atol=0.01):
         return -1e6  # Penalize invalid solutions
-
-    v_exhaust = Isp * g
-
-    # Compute masses
-    m_prop1 = mass_propellant(L1)
-    m_prop2 = mass_propellant(L2)
-    m_prop3 = mass_propellant(L3)
-
-    m_wall1 = mass_wall(L1)
-    m_wall2 = mass_wall(L2)
-    m_wall3 = mass_wall(L3)
-
-    m_bulkhead = (np.pi / 4) * (d_total ** 2) * L_bulkhead * rho_bulkhead
-
-    # Mass ratios and efficiencies
-    epsilon_1 = (m_bulkhead + m_wall1) / (m_prop1 + m_bulkhead + m_wall1)
-    epsilon_2 = (m_bulkhead + m_wall2) / (m_prop2 + m_bulkhead + m_wall2)
-    epsilon_3 = (m_bulkhead + m_wall3) / (m_prop3 + m_bulkhead + m_wall3)
-
-    lambda_1 = (m_payload + m_prop2 + m_prop3 + 2 * m_bulkhead + m_wall2 + m_wall3) / (m_prop1 + m_bulkhead + m_wall1)
-    lambda_2 = (m_payload + m_prop3 + m_bulkhead + m_wall3) / (m_prop2 + m_bulkhead + m_wall2)
-    lambda_3 = m_payload / (m_prop3 + m_bulkhead + m_wall3)
-
-    mass_ratio1 = (1 + lambda_1) / (epsilon_1 + lambda_1)
-    mass_ratio2 = (1 + lambda_2) / (epsilon_2 + lambda_2)
-    mass_ratio3 = (1 + lambda_3) / (epsilon_3 + lambda_3)
-
-    try:
-        delta_v1 = v_exhaust * np.log(mass_ratio1)
-        delta_v2 = v_exhaust * np.log(mass_ratio2)
-        delta_v3 = v_exhaust * np.log(mass_ratio3)
-    except ValueError:
-        return -1e6  # Penalize if log gets invalid due to mass ratio ≤ 0
-
-    total_delta_v = delta_v1 + delta_v2 + delta_v3
-    return total_delta_v  # Maximize this
+    
+    return MathRocket2.total_delta_v(L1, L2, L3)  # Maximize this
 
 # Create the initial population
 def create_initial_population(size, total_length):
@@ -162,9 +104,6 @@ def genetic_algorithm(population_size, lower_bound, upper_bound, generations, mu
         new_population[0] = best_individual
         population = new_population
 
-    # Print the table
-    print(table)
-
     # Plotting population stats
     final_population = all_populations[-1]
     final_fitnesses = [fitness_function(ind, rocket_length) for ind in final_population]
@@ -217,7 +156,4 @@ def genetic_algorithm(population_size, lower_bound, upper_bound, generations, mu
     ax.set_title('Delta V Over Generations')
     ax.legend()
 
-    plt.show()
-
     return max(population, key=lambda ind: fitness_function(ind, rocket_length)), [fig, fig_lengths, fig_fitness]
-genetic_algorithm(1000, 0, 6, 100, 0.01, 6)

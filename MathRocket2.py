@@ -38,7 +38,7 @@ def delta_v(mass_ratio):
     return delta_v
 
 def mass_ratio(lambda_value, epsilon_value):
-    mass_ratio = (1 + lambda_value) / (epsilon_value + lambda_value)
+    return (1 + lambda_value) / (epsilon_value + lambda_value)
 
 def total_delta_v(L1, L2, L3):
     
@@ -63,9 +63,9 @@ def total_delta_v(L1, L2, L3):
     lambda_3 = (m_payload) / (m_prop3 + m_bulkhead + m_wall3)
 
     # Compute Mass Ratios
-    mass_ratio1 = mass_ration(lambda_1, epsilon_1)
-    mass_ratio2 = mass_ration(lambda_2, epsilon_2)
-    mass_ratio3 = mass_ration(lambda_3, epsilon_3)
+    mass_ratio1 = mass_ratio(lambda_1, epsilon_1)
+    mass_ratio2 = mass_ratio(lambda_2, epsilon_2)
+    mass_ratio3 = mass_ratio(lambda_3, epsilon_3)
 
     # Compute Stage Delta_V Values
     delta_v1 = delta_v(mass_ratio1)

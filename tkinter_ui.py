@@ -3,10 +3,11 @@ from tkinter import messagebox
 import matplotlib.pyplot as plt
 from rocket_optimizer import genetic_algorithm, fitness_function  # Your main code should be saved as rocket_optimizer.py
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import MathRocket2
 
 def run_algorithm():
     try:
-        rocket_length = float(entry_length.get())
+        rocket_length = float(entry_length.get()) - 3*MathRocket2.L_bulkhead
         if rocket_length <= 0:
             raise ValueError
 
