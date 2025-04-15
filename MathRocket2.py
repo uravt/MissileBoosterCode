@@ -12,6 +12,7 @@ except ImportError:
 
 
 # Predefined constants
+
 g = 9.81  # Gravity (m/s^2)
 Isp = 260  # Specific impulse (s)
 rho_prop = 1960  # Density of propellant (kg/m^3)
@@ -24,12 +25,7 @@ m_payload = 250  # Assumed payload mass (kg)
 v_exhaust = Isp * g # exhaust velocity (m/s)
 m_bulkhead = (np.pi / 4) * (d_total ** 2) * (L_bulkhead) * (rho_bulkhead) # mass of bulkhead (kg)
 
-def get_float(prompt):
-    while True:
-        try:
-            return float(input(prompt).strip())  # Strip removes extra spaces
-        except ValueError:
-            print("Invalid input! Please enter a numeric value.")
+# Functions
 
 def mass_propellant(L_prop):
     return (np.pi * (d_prop ** 2) / 4) * L_prop * rho_prop
@@ -76,8 +72,6 @@ def total_delta_v(L1, L2, L3):
     delta_v2 = delta_v(mass_ratio2)
     delta_v3 = delta_v(mass_ratio3)
 
-    # Compute Total Delta_V for teh Rocket
-    total_delta_v = delta_v1 + delta_v2 + delta_v3
-
-    return total_delta_v
+    # Compute Total Delta_V for the Rocket and return the value
+    return delta_v1 + delta_v2 + delta_v3
  
