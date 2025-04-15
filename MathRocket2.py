@@ -35,26 +35,6 @@ def mass_propellant(L_prop):
 def mass_wall(L_wall):
     return (np.pi / 4) * ((d_total ** 2) - (d_prop ** 2)) * L_wall * rho_wall
 
-message = """
-Welcome to the Rocket Stage Optimization Program!
-This program calculates the optimal Delta-V for a three-stage rocket,
-ensuring the total stage length remains 6 meters.
-Users will input individual stage lengths, and the program will compute
-the resulting Delta-V based on mass properties and the rocket equation.
-"""
-
-print(message)
-
-# Get stage lengths from user
-
-L1 = get_float("Please enter stage length 1 (meters): ")
-L2 = get_float("Please enter stage length 2 (meters): ")
-L3 = get_float("Please enter stage length 3 (meters): ")
-
-# Ensure total length constraint is met
-if round(L1 + L2 + L3, 2) != 6:
-  print("Error: The total stage length must be 6 meters.")
-
 v_exhaust = Isp * g
 
 # Compute mass for each stage
