@@ -217,6 +217,7 @@ def genetic_algorithm(population_size, lower_bound, upper_bound, generations, mu
     ax.set_title('Delta V Over Generations')
     ax.legend()
 
-    # plt.show()
+    plt.show()
 
     return max(population, key=lambda ind: fitness_function(ind, rocket_length)), [fig, fig_lengths, fig_fitness]
+genetic_algorithm(1000, 0, 6, 100, 0.01, 6)
