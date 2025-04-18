@@ -65,7 +65,7 @@ def mutation_fixed_L1(individual, mutation_rate, lower_bound, upper_bound, remai
 
 def genetic_algorithm_fixed_L1(population_size, lower_bound, upper_bound, generations, mutation_rate, rocket_length):
     
-    #L1 calculation
+    #L1 and remaining length calculation
     L1 = pop_off_booster_length.compute_L1(burn_time=10, length=rocket_length)
     remaining_length = rocket_length - L1
 
