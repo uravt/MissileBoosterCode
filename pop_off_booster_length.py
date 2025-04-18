@@ -22,7 +22,7 @@ def compute_L1(burn_time, length):
     
     A = (np.pi / 4) * (constants.d_prop) ** 2 * (constants.rho_prop)
     B = (np.pi / 4) * (constants.d_total ** 2) * (constants.L_bulkhead) * (constants.rho_bulkhead)
-    C = (np.pi / 4) * ((constants.d_prop) ** 2 - (constants.rho_wall) ** 2) * (constants.rho_wall)
+    C = (np.pi / 4) * ((constants.d_total)**2 - (constants.d_prop**2)) * constants.rho_wall
     D = M + A + 2 * B + C
     E = M + A * L + 3 * B + C * L
     F = A * C + C ** 2
@@ -39,3 +39,11 @@ def compute_L1(burn_time, length):
 
     L1 = solve_quadratic(P, Q, S, length)
     return L1
+
+def main():
+    burn_time = 10  # Example burn time in seconds
+    length = 10  # Example total length of the rocket in meters
+    L1 = compute_L1(burn_time, length)
+    print(f"Computed L1: {L1}")
+
+main()
