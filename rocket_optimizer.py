@@ -2,9 +2,10 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 from prettytable import PrettyTable
-import MathRocket2
+import delta_v
 
-rocket_length = 0 # Placeholder for rocket length
+rocket_length = 10 # Placeholder for rocket length
+
 
 # Fitness function for the genetic algorithm
 def fitness_function(ind, rocket_length):
@@ -14,7 +15,8 @@ def fitness_function(ind, rocket_length):
     if L1 <= 0 or L2 <= 0 or L3 <= 0 or not np.isclose(L1 + L2 + L3, rocket_length, atol=0.01):
         return -1e6  # Penalize invalid solutions
     
-    return MathRocket2.total_delta_v(L1, L2, L3)  # Maximize this
+    return delta_v.total_delta_v(L1, L2, L3)  # Maximize this
+
 
 # Create the initial population
 def create_initial_population(size, total_length):
@@ -65,7 +67,6 @@ def mutation(individual, mutation_rate, lower_bound, upper_bound, rocket_length)
     total = sum(individual)
     individual = [L * rocket_length / total for L in individual]
     return individual
-
 
 
 # Genetic Algorithm function
