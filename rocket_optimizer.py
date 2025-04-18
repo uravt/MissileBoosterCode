@@ -104,7 +104,7 @@ def genetic_algorithm(population_size, lower_bound, upper_bound, generations, mu
 
         new_population[0] = best_individual
         population = new_population
-
+    
     # Plotting population stats
     final_population = all_populations[-1]
     final_fitnesses = [fitness_function(ind, rocket_length) for ind in final_population]

@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 import matplotlib.pyplot as plt
-from rocket_optimizer import genetic_algorithm, fitness_function
+import rocket_optimizer
+import constrained_algorithm
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import constants
 import numpy as np
@@ -50,30 +51,57 @@ def run_algorithm():
         mutation_rate = 10 / population_size
 
         import rocket_optimizer
-        genetic_algorithm.rocket_length = rocket_length
+        import constrained_algorithm
 
-        best_solution, figures = genetic_algorithm(
+        rocket_optimizer.rocket_length = rocket_length
+        constrained_algorithm.rocket_length = rocket_length
+
+        # Run the unconstrained genetic algorithm
+        best_solution_opt, figures_opt = rocket_optimizer.genetic_algorithm(
             population_size, lower_bound, upper_bound, generations, mutation_rate, rocket_length
         )
-        delta_v = fitness_function(best_solution, rocket_length)
 
-        result_text.set(f"Best Solution:\nL1 = {best_solution[0]:.2f} m\n"
-                        f"L2 = {best_solution[1]:.2f} m\n"
-                        f"L3 = {best_solution[2]:.2f} m\n"
-                        f"Delta V = {delta_v:.2f} m/s")
+        # Run the constrained genetic algorithm
+        best_solution_constrained, figures_constrained = constrained_algorithm.genetic_algorithm_fixed_L1(
+            population_size, lower_bound, upper_bound, generations, mutation_rate, rocket_length
+        )
 
+        delta_v_opt = rocket_optimizer.fitness_function(best_solution_opt, rocket_length)
+        delta_v_constrained = constrained_algorithm.fitness_function_fixed_L1(best_solution_constrained, constrained_algorithm.L1, rocket_length)
+
+        result_text.set(f"Best Solution (Unconstrained):\nL1 = {best_solution_opt[0]:.2f} m\n"
+                        f"L2 = {best_solution_opt[1]:.2f} m\n"
+                        f"L3 = {best_solution_opt[2]:.2f} m\n"
+                        f"Delta V = {delta_v_opt:.2f} m/s\n\n"
+                        f"Best Solution (Constrained):\nL1 = {constrained_algorithm.L1:.2f} m\n"
+                        f"L2 = {best_solution_constrained[0]:.2f} m\n"
+                        f"L3 = {best_solution_constrained[1]:.2f} m\n"
+                        f"Delta V = {delta_v_constrained:.2f} m/s")
+
+        # Clear previous graphs
         for widget in graph_frame.winfo_children():
             widget.destroy()
 
-        fig, fig_lengths, fig_fitness = figures
+        # Extract figures for unconstrained and constrained
+        fig_opt, fig_lengths_opt, fig_fitness_opt = figures_opt
+        fig_constrained, fig_lengths_constrained, fig_fitness_constrained = figures_constrained
 
-        canvas_lengths = FigureCanvasTkAgg(fig_lengths, master=graph_frame)
-        canvas_lengths.get_tk_widget().pack()
-        canvas_lengths.draw()
+        # Create canvases for the graphs and add them to the UI
+        canvas_lengths_opt = FigureCanvasTkAgg(fig_lengths_opt, master=graph_frame)
+        canvas_lengths_opt.get_tk_widget().pack(side="left", padx=10)
+        canvas_lengths_opt.draw()
 
-        canvas_fitness = FigureCanvasTkAgg(fig_fitness, master=graph_frame)
-        canvas_fitness.get_tk_widget().pack()
-        canvas_fitness.draw()
+        canvas_fitness_opt = FigureCanvasTkAgg(fig_fitness_opt, master=graph_frame)
+        canvas_fitness_opt.get_tk_widget().pack(side="left", padx=10)
+        canvas_fitness_opt.draw()
+
+        canvas_lengths_constrained = FigureCanvasTkAgg(fig_lengths_constrained, master=graph_frame)
+        canvas_lengths_constrained.get_tk_widget().pack(side="left", padx=10)
+        canvas_lengths_constrained.draw()
+
+        canvas_fitness_constrained = FigureCanvasTkAgg(fig_fitness_constrained, master=graph_frame)
+        canvas_fitness_constrained.get_tk_widget().pack(side="left", padx=10)
+        canvas_fitness_constrained.draw()
 
     except ValueError:
         messagebox.showerror("Invalid Input", "Please enter a positive numeric value for rocket length.")
