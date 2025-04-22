@@ -1,0 +1,42 @@
+# Missile Booster Comparator
+
+This repository contains a tool designed to compare the performance of various missile boosters. It provides a framework for analyzing and evaluating booster specifications, enabling users to make informed decisions based on their requirements.
+
+## Features
+
+- Compare multiple missile boosters based on key performance metrics.
+- Support for customizable parameters and configurations.
+- Easy-to-read output for quick analysis.
+
+## Installation
+
+1. Clone the repository:
+    ```
+    git clone https://github.com/your-username/Missile-Booster-Comparator.git
+    ```
+2. Navigate to the project directory:
+    ```
+    cd Missile-Booster-Comparator
+    ```
+3. Install any required dependencies.
+
+## Usage
+
+1. Add the specifications of the missile boosters you want to compare.
+2. Run the comparison tool:
+    ```
+    python comparator.py
+    ```
+3. View the results and analysis.
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute, please fork the repository and submit a pull request.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Contact
+
+For any questions or feedback, please contact phanaustin1@gmail.com.
