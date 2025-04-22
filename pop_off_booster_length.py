@@ -39,11 +39,3 @@ def compute_L1(burn_time, length):
 
     L1 = solve_quadratic(P, Q, S, length)
     return L1
-
-def main():
-    burn_time = 10  # Example burn time in seconds
-    length = 10  # Example total length of the rocket in meters
-    L1 = compute_L1(burn_time, length)
-    print(f"Computed L1: {L1}")
-
-main()
