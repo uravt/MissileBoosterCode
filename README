@@ -22,10 +22,10 @@ This repository contains a tool designed to compare the performance of various m
 
 ## Usage
 
-1. Add the specifications of the missile boosters you want to compare.
-2. Run the comparison tool:
+1. Change any parameters within the program if desired.
+2. Run the front end tool:
     ```
-    python comparator.py
+    python tkinter.py
     ```
 3. View the results and analysis.
 
