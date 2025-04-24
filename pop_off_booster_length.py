@@ -4,7 +4,7 @@ import constants
 
 def solve_quadratic(a, b, c, contraint):
     # Calculate the discriminant
-    discriminant = math.sqrt(b ** 2 - 4 * a * c)
+    discriminant = math.sqrt((b ** 2) - 4 * a * c)
     # Calculate two solutions
     x1 = (-b + discriminant) / (2 * a)
     x2 = (-b - discriminant) / (2 * a)
@@ -23,8 +23,8 @@ def compute_L1(burn_time, length):
     A = (np.pi / 4) * ((constants.d_total)**2 - (constants.d_prop**2)) * constants.rho_wall
     B = (np.pi / 4) * (constants.d_total ** 2) * (constants.L_bulkhead) * (constants.rho_bulkhead)
     C = (np.pi / 4) * (constants.d_prop**2) * constants.rho_wall
-    D = M + (C * L) + (A * L) + *(3 * B)
-    E = M + (C * L) + (A * L) + *(2 * B)
+    D = M + (C * L) + (A * L) + (3 * B)
+    E = M + (C * L) + (A * L) + (2 * B)
     F = A + C
     G = (B ** 2) + (D * E)
     H = (A * B) + (B * F) - (C * E) - (D * F)
