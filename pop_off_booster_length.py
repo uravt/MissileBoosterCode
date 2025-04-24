@@ -20,22 +20,21 @@ def compute_L1(burn_time, length):
     
     R = math.exp((burn_time) / (2 * constants.Isp)) # Mass Ratio Defined by Burn Time
     
-    A = (np.pi / 4) * (constants.d_prop) ** 2 * (constants.rho_prop)
+    A = (np.pi / 4) * ((constants.d_total)**2 - (constants.d_prop**2)) * constants.rho_wall
     B = (np.pi / 4) * (constants.d_total ** 2) * (constants.L_bulkhead) * (constants.rho_bulkhead)
-    C = (np.pi / 4) * ((constants.d_total)**2 - (constants.d_prop**2)) * constants.rho_wall
-    D = M + A + 2 * B + C
-    E = M + A * L + 3 * B + C * L
-    F = A * C + C ** 2
-    G = A * B + 2 * B * C
-    H = A * ((-1 * A) - C)
-    I = D * A + E * ((-1 * A) - C)
-    J = (C * E) + (A * B)
-    K = F + H
-    N = G + I
-    O = B ** 2 + D * E
-    P = K - (R * A)
-    Q = N - (R * J)
-    S = O - ((B * E) * R)
+    C = (np.pi / 4) * (constants.d_prop**2) * constants.rho_wall
+    D = M + (C * L) + (A * L) + *(3 * B)
+    E = M + (C * L) + (A * L) + *(2 * B)
+    F = A + C
+    G = (B ** 2) + (D * E)
+    H = (A * B) + (B * F) - (C * E) - (D * F)
+    I = (A * F) + (C * F)
+    J = (B * D)
+    K = (A * D) - (B * C)
+    N = (A * C)
+    O = (I + (R * N))
+    Q = H - (K * R)
+    S = (G - (R * J))
 
-    L1 = solve_quadratic(P, Q, S, length)
+    L1 = solve_quadratic(o, Q, S, length)
     return L1
