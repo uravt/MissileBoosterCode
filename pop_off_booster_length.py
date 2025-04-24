@@ -36,5 +36,5 @@ def compute_L1(burn_time, length):
     Q = H - (K * R)
     S = (G - (R * J))
 
-    L1 = solve_quadratic(o, Q, S, length)
+    L1 = solve_quadratic(O, Q, S, length)
     return L1
