@@ -18,3 +18,6 @@ def compute_L1(burn_time, length_total):
     L1 = F / G
 
     return L1
+
+# Important Note - This function accounts for the length of the bulkheads so 
+# it is important that the main code does not call this function using anything other than the total missile length
