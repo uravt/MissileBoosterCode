@@ -97,20 +97,19 @@ def run_algorithm():
 
         # Plot final stage lengths
         stage_length_fig  = plot_final_stage_lengths(best_solution_opt, best_solution_constrained, constrained_algorithm.L1)
-        stage_length_frame = tk.LabelFrame(container, text="Final Stage Length Comparison", padx=10, pady=10)
+        stage_length_frame = tk.LabelFrame(graph_frame, text="Final Stage Length Comparison", padx=10, pady=10)
         stage_length_frame.pack(pady=10)
         FigureCanvasTkAgg(stage_length_fig, master=stage_length_frame).get_tk_widget().pack()
 
         # Stacked Rocket Visual
         stacked_fig = plot_stacked_rocket_visual(best_solution_opt, best_solution_constrained, constrained_algorithm.L1, delta_v_opt, delta_v_constrained)
-
-        stacked_frame = tk.LabelFrame(container, text="Propulstion Stack Breakdown", padx=20, pady=20)
+        stacked_frame = tk.LabelFrame(graph_frame, text="Propulstion Stack Breakdown", padx=20, pady=20)
         stacked_frame.pack(pady=10)
         stacked_frame.pack(pady=10)
 
         # Delta V Comparison Graph
         delta_v_fig = plot_delta_v_comparison(delta_v_opt, delta_v_constrained)
-        delta_v_frame = tk.LabelFrame(container, text="Delta V Comparison", padx=10, pady=10)
+        delta_v_frame = tk.LabelFrame(graph_frame, text="Delta V Comparison", padx=10, pady=10)
         delta_v_frame.pack(pady=10)
         FigureCanvasTkAgg(delta_v_fig, master=delta_v_frame).get_tk_widget().pack()
 
@@ -276,23 +275,41 @@ def plot_delta_v_comparison(delta_v_unconstrained, delta_v_constrained):
 root = tk.Tk()
 root.title("Rocket Stage Optimizer")
 
+# Create main canvas
 main_canvas = tk.Canvas(root, borderwidth=0)
-scrollbar = tk.Scrollbar(root, orient="vertical", command=main_canvas.yview)
-main_canvas.configure(yscrollcommand=scrollbar.set)
 
-scrollbar.pack(side="right", fill="y")
+# Scrollbars
+v_scrollbar = tk.Scrollbar(root, orient="vertical", command=main_canvas.yview)
+h_scrollbar = tk.Scrollbar(root, orient="horizontal", command=main_canvas.xview)
+
+main_canvas.configure(yscrollcommand=v_scrollbar.set, xscrollcommand=h_scrollbar.set)
+
+# Pack scrollbars and canvas
+v_scrollbar.pack(side="right", fill="y")
+h_scrollbar.pack(side="bottom", fill="x")
 main_canvas.pack(side="left", fill="both", expand=True)
 
+# Frame inside the canvas
 container = tk.Frame(main_canvas)
 canvas_window = main_canvas.create_window((0, 0), window=container, anchor="nw")
 
+# Update scrollregion when container size changes
 def on_configure(event):
     main_canvas.configure(scrollregion=main_canvas.bbox("all"))
 
 container.bind("<Configure>", on_configure)
 
+# Mousewheel for vertical scrolling
 def _on_mousewheel(event):
-    main_canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+    main_canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
+main_canvas.bind_all("<MouseWheel>", _on_mousewheel)
+
+# Horizontal scrolling with Shift + Mousewheel
+def _on_shift_mousewheel(event):
+    main_canvas.xview_scroll(int(-1 * (event.delta / 120)), "units")
+
+main_canvas.bind_all("<Shift-MouseWheel>", _on_shift_mousewheel)
 
 main_canvas.bind_all("<MouseWheel>", _on_mousewheel)
 
