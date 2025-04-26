@@ -13,7 +13,7 @@ def delta_v(mass_ratio):
     return (constants.v_exhaust * np.log(mass_ratio))
 
 def mass_ratio(lambda_value, epsilon_value):
-    return ((1 + lambda_value) / (epsilon_value + lambda_value))
+    return ((epsilon_value + lambda_value) / (1 + lambda_value))
 
 def total_delta_v(L1, L2, L3):
     
