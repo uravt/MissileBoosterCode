@@ -15,7 +15,7 @@ def compute_L1(burn_time, length_total):
     F = E * (R - 1)
     G = C * R
 
-    L1 = F / G
+    L1 = G / F
 
     return L1
 
