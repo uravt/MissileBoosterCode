@@ -18,7 +18,7 @@ This repository contains a tool designed to compare the performance of various m
     ```
     cd Missile-Booster-Comparator
     ```
-3. Install any required dependencies.
+3. Install any required dependencies with pip install.
 
 ## Usage
 
