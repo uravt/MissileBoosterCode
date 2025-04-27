@@ -27,6 +27,8 @@ This repository contains a tool designed to compare the performance of various m
     ```
     python tkinter.py
     ```
+3. Enter or change any input parameters.
+4. Hit the optimize button to find the optimal delta V values, and generate graphs.
 3. View the results and analysis.
 
 ## Contributing
