@@ -12,10 +12,9 @@ def compute_L1(burn_time, length_total):
     C = (np.pi / 4) * (constants.d_prop**2) * constants.rho_prop
     D = A + C
     E = M + (3 * B) + (D * L_r)
-    F = E * (R - 1)
-    G = C * R
+    F = E * (1 - R)
 
-    L1 = G / F
+    L1 = F / C
 
     return L1
 
