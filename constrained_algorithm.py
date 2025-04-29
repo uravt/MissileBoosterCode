@@ -6,7 +6,7 @@ import delta_v
 import pop_off_booster_length
 
 rocket_length = 10 # Placeholder for rocket length
-L1 = new_pop_off_booster_length.compute_L1(burn_time=10, length=rocket_length)
+L1 = pop_off_booster_length.compute_L1(burn_time=10, length=rocket_length)
 
 # Fitness function for the genetic algorithm
 def fitness_function_fixed_L1(ind, L1, rocket_length):
