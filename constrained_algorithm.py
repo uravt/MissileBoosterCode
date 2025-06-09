@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from prettytable import PrettyTable
 import delta_v
-import pop_off_booster_length
+import new_pop_off_booster_length
 
 rocket_length = 10 # Placeholder for rocket length
-L1 = pop_off_booster_length.compute_L1(burn_time=10, length=rocket_length)
+L1 = new_pop_off_booster_length.compute_L1(burn_time=10, length_total=rocket_length)
 
 # Fitness function for the genetic algorithm
 def fitness_function_fixed_L1(ind, L1, rocket_length):
@@ -66,7 +66,7 @@ def mutation_fixed_L1(individual, mutation_rate, lower_bound, upper_bound, remai
 def genetic_algorithm_fixed_L1(population_size, lower_bound, upper_bound, generations, mutation_rate, rocket_length):
     
     #L1 and remaining length calculation
-    L1 = pop_off_booster_length.compute_L1(burn_time=10, length=rocket_length)
+    L1 = new_pop_off_booster_length.compute_L1(burn_time=10, length_total=rocket_length)
     remaining_length = rocket_length - L1
 
     population = create_initial_population_fixed_L1(population_size, remaining_length)
