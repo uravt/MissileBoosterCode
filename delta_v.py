@@ -41,9 +41,6 @@ def total_delta_v(L1, L2, L3):
     mass_ratio1 = mass_ratio(lambda_1, epsilon_1)
     mass_ratio2 = mass_ratio(lambda_2, epsilon_2)
     mass_ratio3 = mass_ratio(lambda_3, epsilon_3)
-    mass_ratio1 = mass_ratio(lambda_1, epsilon_1)
-    mass_ratio2 = mass_ratio(lambda_2, epsilon_2)
-    mass_ratio3 = mass_ratio(lambda_3, epsilon_3)
 
     # Compute Stage Delta_V Values
     delta_v1 = delta_v(mass_ratio1)
