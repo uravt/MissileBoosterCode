@@ -3,7 +3,7 @@ from tkinter import messagebox
 import matplotlib.pyplot as plt
 import rocket_optimizer
 import constrained_algorithm
-import pop_off_booster_length
+import new_pop_off_booster_length
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import constants
 import numpy as np
@@ -50,7 +50,7 @@ def run_algorithm():
 
         rocket_optimizer.rocket_length = rocket_length
         constrained_algorithm.rocket_length = rocket_length
-        constrained_algorithm.L1 = pop_off_booster_length.compute_L1(burn_time=10, length=rocket_length)
+        constrained_algorithm.L1 = new_pop_off_booster_length.compute_L1(burn_time=10, length_total=rocket_length)
 
         best_solution_opt, figures_opt = rocket_optimizer.genetic_algorithm(
             population_size, lower_bound, upper_bound, generations, mutation_rate, rocket_length
